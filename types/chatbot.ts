@@ -67,8 +67,19 @@ export interface DiseaseAnalysis {
 
 export interface Message {
   id: string;
-  text: string;
   sender: Sender;
-  image?: string; // base64 encoded image for display
-  analysis?: DiseaseAnalysis;
+  text?: string;
+  image?: string;
+  analysis?: {
+    prediction: string;
+    confidence: string;
+    probabilities: Record<string, string>;
+  };
+}
+
+// Add this new interface
+export interface Conversation {
+    id: string;
+    title: string;
+    messages: Message[];
 }
