@@ -115,22 +115,22 @@ export default function WeatherDashboard() {
   }, [selectedDistrict])
 
   const getTemperatureColor = (temp: number) => {
-    if (temp < 20) return 'text-blue-600'
-    if (temp < 30) return 'text-green-600'
-    if (temp < 35) return 'text-yellow-600'
-    return 'text-red-600'
+    if (temp < 20) return 'text-blue-800'
+    if (temp < 30) return 'text-green-800'
+    if (temp < 35) return 'text-orange-600'
+    return 'text-red-800'
   }
 
   const getHumidityColor = (humidity: number) => {
-    if (humidity < 40) return 'text-red-600'
-    if (humidity < 70) return 'text-yellow-600'
-    return 'text-green-600'
+    if (humidity < 40) return 'text-red-800'
+    if (humidity < 70) return 'text-orange-600'
+    return 'text-green-800'
   }
 
   const getWindSpeedColor = (speed: number) => {
-    if (speed < 10) return 'text-green-600'
-    if (speed < 20) return 'text-yellow-600'
-    return 'text-red-600'
+    if (speed < 10) return 'text-green-800'
+    if (speed < 20) return 'text-orange-600'
+    return 'text-red-800'
   }
 
   const getFarmingAdvice = (weather: WeatherData) => {
@@ -236,12 +236,12 @@ export default function WeatherDashboard() {
                 const district = districts.find(d => d.name === value)
                 if (district) setSelectedDistrict(district)
               }}>
-                <SelectTrigger className="w-64">
-                  <SelectValue placeholder="Select a district" />
+                <SelectTrigger className="w-80 bg-white border-2 border-gray-300 focus:border-green-600">
+                  <SelectValue placeholder="Select a district" className="text-gray-900" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white border-2 border-gray-300 w-80">
                   {districts.map((district) => (
-                    <SelectItem key={district.name} value={district.name}>
+                    <SelectItem key={district.name} value={district.name} className="text-gray-900 hover:bg-green-100 focus:bg-green-100">
                       {district.name} - {district.hq}
                     </SelectItem>
                   ))}
@@ -252,6 +252,7 @@ export default function WeatherDashboard() {
                 disabled={loading}
                 variant="outline"
                 size="sm"
+                className="border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
               >
                 <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
                 {globalT("weather.refresh")}
@@ -342,11 +343,11 @@ export default function WeatherDashboard() {
 
             {/* Charts */}
             <Tabs defaultValue="weekly" className="mb-6">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="weekly">{globalT("weather.weeklyForecast")}</TabsTrigger>
-                <TabsTrigger value="temperature">{globalT("weather.temperature")}</TabsTrigger>
-                <TabsTrigger value="humidity">{globalT("weather.humidity")}</TabsTrigger>
-                <TabsTrigger value="wind">{globalT("weather.windSpeed")}</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-4 bg-gray-100">
+                <TabsTrigger value="weekly" className="data-[state=active]:bg-green-600 data-[state=active]:text-white text-gray-700">{globalT("weather.weeklyForecast")}</TabsTrigger>
+                <TabsTrigger value="temperature" className="data-[state=active]:bg-green-600 data-[state=active]:text-white text-gray-700">{globalT("weather.temperature")}</TabsTrigger>
+                <TabsTrigger value="humidity" className="data-[state=active]:bg-green-600 data-[state=active]:text-white text-gray-700">{globalT("weather.humidity")}</TabsTrigger>
+                <TabsTrigger value="wind" className="data-[state=active]:bg-green-600 data-[state=active]:text-white text-gray-700">{globalT("weather.windSpeed")}</TabsTrigger>
               </TabsList>
 
               <TabsContent value="weekly">
@@ -364,8 +365,8 @@ export default function WeatherDashboard() {
                           <XAxis dataKey="day" />
                           <YAxis />
                           <Tooltip />
-                          <Line type="monotone" dataKey="maxTemp" stroke="#ef4444" strokeWidth={2} name="Max Temp" />
-                          <Line type="monotone" dataKey="minTemp" stroke="#3b82f6" strokeWidth={2} name="Min Temp" />
+                          <Line type="monotone" dataKey="maxTemp" stroke="#dc2626" strokeWidth={3} name="Max Temp" />
+                          <Line type="monotone" dataKey="minTemp" stroke="#1e40af" strokeWidth={3} name="Min Temp" />
                         </LineChart>
                       </ResponsiveContainer>
                     </div>
@@ -380,14 +381,14 @@ export default function WeatherDashboard() {
                             
                             <div className="space-y-2">
                               <div className="flex justify-between items-center">
-                                <span className="text-sm text-gray-600">High</span>
+                                <span className="text-sm font-medium text-gray-800">High</span>
                                 <span className={`font-bold ${getTemperatureColor(day.maxTemp)}`}>
                                   {day.maxTemp}°C
                                 </span>
                               </div>
                               
                               <div className="flex justify-between items-center">
-                                <span className="text-sm text-gray-600">Low</span>
+                                <span className="text-sm font-medium text-gray-800">Low</span>
                                 <span className={`font-bold ${getTemperatureColor(day.minTemp)}`}>
                                   {day.minTemp}°C
                                 </span>
@@ -395,15 +396,15 @@ export default function WeatherDashboard() {
                               
                               {day.precipitation > 0 && (
                                 <div className="flex justify-between items-center">
-                                  <span className="text-sm text-gray-600">Rain</span>
-                                  <span className="font-bold text-blue-600">
+                                  <span className="text-sm font-medium text-gray-800">Rain</span>
+                                  <span className="font-bold text-blue-800">
                                     {day.precipitation}mm
                                   </span>
                                 </div>
                               )}
                               
                               <div className="flex justify-between items-center">
-                                <span className="text-sm text-gray-600">Wind</span>
+                                <span className="text-sm font-medium text-gray-800">Wind</span>
                                 <span className={`font-bold ${getWindSpeedColor(day.maxWind)}`}>
                                   {day.maxWind} km/h
                                 </span>
@@ -430,7 +431,7 @@ export default function WeatherDashboard() {
                         <XAxis dataKey="time" />
                         <YAxis />
                         <Tooltip />
-                        <Line type="monotone" dataKey="temperature" stroke="#f59e0b" strokeWidth={2} />
+                        <Line type="monotone" dataKey="temperature" stroke="#ea580c" strokeWidth={3} />
                       </LineChart>
                     </ResponsiveContainer>
                   </CardContent>
@@ -450,7 +451,7 @@ export default function WeatherDashboard() {
                         <XAxis dataKey="time" />
                         <YAxis />
                         <Tooltip />
-                        <Bar dataKey="humidity" fill="#3b82f6" />
+                        <Bar dataKey="humidity" fill="#1e40af" />
                       </BarChart>
                     </ResponsiveContainer>
                   </CardContent>
@@ -470,7 +471,7 @@ export default function WeatherDashboard() {
                         <XAxis dataKey="time" />
                         <YAxis />
                         <Tooltip />
-                        <Line type="monotone" dataKey="wind" stroke="#6b7280" strokeWidth={2} />
+                        <Line type="monotone" dataKey="wind" stroke="#374151" strokeWidth={3} />
                       </LineChart>
                     </ResponsiveContainer>
                   </CardContent>
